@@ -4,12 +4,60 @@
 <head>
 	<title>Wzybnzy's Javascript</title>
 </head>
-<body>
+<body style="padding: 20px">
     <h1>
-	Javascript笔记    	
+		<!-- 个人建站 -->XXXX
     </h1>
-    <div>
-	1、第一章
-    </div>
+    <p>
+		<b style="font-size: 20px">搭建个人站点，大致需要做这么几件事情：</b><br />
+		<i>硬件</i><br />
+		1、<b>一台具备公网IP的服务器</b><br />
+		2、安装操作系统，搭建环境<br />
+		3、<b>购买域名，</b>域名绑定IP<br />
+		4、部署应用程序<br />
+		<i>软件（软技能）</i><br />
+		1、基础的 Linux 命令<br />
+		2、基础的 Vi 操作方式<br />
+		3、基础的 GIT 命令<br />
+    </p>
+    <p>主机和域名我是在腾讯云购买的</p>
+    <p>主机。就是永远开机的电脑。在腾讯云租用主机时，可以预装 Ubuntu 系统（一种 Linux 发行版）。网站部署在主机上，就像是在远程电脑的硬盘放了一些文件，有人访问网站时，就展示这些文件。</p>
+    <p>域名。就是互联网上唯一的访问地址，也就是网址。域名不是必须的，因为主机会有IP，通过IP也可以访问你的主机。因为IP不容易记，所以和域名绑定，用户只管输入域名，DNS会帮忙解析访问去指定IP。</p>
+    <p>腾讯云。是云主机商，我们需要从这里租用服务器。</p>
+    <p>新网。是中国域名代理商，我们需要从这里注册自己的域名。</p>
+    <p>understand?</p>
+    <b style="font-size: 20px">基础知识</b>
+    <p>SSH：远程登录协议，我们会通过命令行的SSH命令连接到远程服务器。（ssh 用户名@IP地址 enter之后输入密码就登录上去了 输密码的时候光标没什么动静 输就可以了 是的 ---- 我是一只快乐的分割线 后面是例子---- ssh ubuntu@139.199.96.15）</p>
+    <p>GIT：分布式内容管理系统，我们用来管理网站代码以及部署</p>
+    <p>Nginx：高性能的HTTP和反向代理服务器，用来处理对网站的访问</p>
+    <b style="font-size: 20px">实现步骤</b>
+    <p>1、我把代码托管在 github 上，然后得到一个 git 地址，并且最终 push 到 github 的 服务器上。GIT这一步，你可以使用任何工具，但是在之后的服务端，需要用GIT命令。</p>
+    <p>2、ssh ubuntu@139.199.96.15 并 输入密码 登录</p>
+    <div><img src="./images/login.png" alt=""></div>
+    <p>首先把自己的内裤穿到外面 变成一只superman (管理员权限)<b>执行 sudo su</b></p>
+    <div><img src="./images/su.png" alt=""></div>
+    <p>首先安装 GIT，然后安装 Nginx。</p>
+    <p>sudo apt-get install git</p><b>git --version 查看版本号</b>
+    <p>git config --global user.email "you@example.com"   设置自己的git邮箱（换成自己的邮箱）<br />
+  		git config --global user.name "Your Name"   设置自己的git用户名（换成自己的用户名）</p>
+    <p>sudo apt-get install nginx</p><b>nginx -v 查看版本号</b>
+    <p>service nginx start <i>启动nginx 这时在浏览器输入自己的ip就可以看到nginx的默认欢迎页了</i></p>
+    <p>下面我们去这个目录 /var/www/html，如果这个目录不存在我们就创建一下。存在的话跳过这步</p>
+    <p>mkdir /var/www/html</p>
+    <p>进入 html 目录 把项目下载到网站目录</p>
+	<p>git clone http://你的地址/</p>
+	<p>假设我的项目叫 Heloo-World，那么同步完成以后，我的 html 目录就会多一个 Heloo-World 文件夹。</p>
+	<p>下面一切就绪，我们在 Nginx 创建一个网站，并且目录指定到这里。 先切换到 Nginx 目录。(不是通过 apt-get 安装目录会不同) 我这个貌似是修改 /etc/nginx/sites-available 下的 default 文件 =><i>当然还有其他方式 比如有个叫 conf.d 的文件夹，我们会在这个文件夹创建扩展名是 conf 的文件，每个文件代表一个网站配置。因为是基础文章，所以不介绍 nginx.conf 里的配置信息了。</i></p>
+	<p>vi 进入default 文件 按一下 i 进入编辑模式 然后输入下面内容</p>
+	<div style="width: 600px; height: auto"><img style="width: 100%; height: 100%;" src="./images/nginx.jpeg" alt=""></div>
+	<p>输入完成以后，按组合键 Shift + : 输入 wq! 回车。（命令模式，写入并退出，感叹号代表强制）</p>
+	<p>解释一下上面配置的意思：<br />
+		server_name 的意思是访问的域名，这里支持正则表达式。之后我们需要解析域名！<br />
+		root 是设置网站所在目录<br />
+		index 是默认的网站首页文件名</p>
+	<p>创建网站配置以后，可以通过这个命令检查配置是否正确: 显示ok 表示没问题</p>
+	<p>nginx -t</p>
+	<div><img src="./images/ok.png" alt=""></div>
+	<p>service nginx restart <i>重新启动nginx 到这里为止就ok了 输入自己的ip 就能看到自己的页面了</i></p>
 </body>
 </html>
